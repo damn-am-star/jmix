@@ -30,7 +30,7 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.microsoft.OfficeParser;
 import org.apache.tika.parser.microsoft.OfficeParserConfig;
 import org.apache.tika.parser.microsoft.ooxml.OOXMLParser;
-n:\port org.apache.tika.parser.odf.OpenDocumentParser;
+import org.apache.tika.parser.odf.OpenDocumentParser;
 import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.microsoft.rtf.RTFParser;
 import org.apache.tika.parser.txt.TXTParser;

@@ -20,7 +20,9 @@ package io.jmix.search.utils
 import io.jmix.core.CoreConfiguration
 import io.jmix.core.FileRef
 import io.jmix.core.FileStorage
+import io.jmix.core.FileStorageLocator
 import io.jmix.localfs.LocalFileStorageConfiguration
+import io.jmix.search.exception.UnsupportedFileFormatException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
@@ -123,6 +125,23 @@ class FileProcessorTest extends Specification {
         removeStoredFile(fileRef)
     }
 
+    def "should propagate the unsupported file format exception"() {
+        given:
+        FileStorageLocator storageLocator = Mock()
+        UnsupportedFileFormatException exception = Mock()
+        FileParserProvider parserProvider = Mock()
+        FileRef fileRef = Mock()
+        parserProvider.getParserKit(fileRef) >> { throw exception }
+        FileProcessor processor = new FileProcessor(storageLocator, parserProvider)
+
+        when:
+        processor.extractFileContent(fileRef)
+
+        then:
+        UnsupportedFileFormatException thrownException = thrown()
+        thrownException == exception
+    }
+
     protected FileRef saveReferenceFile(String fileName) {
         InputStream inputStream = getClass().getResourceAsStream("${RESOURCE_DIR}/${fileName}")
         assert inputStream != null: "Test resource not found: ${fileName}"
@@ -136,31 +155,5 @@ class FileProcessorTest extends Specification {
         if (fileRef != null && fileStorage.fileExists(fileRef)) {
             fileStorage.removeFile(fileRef)
         }
-import io.jmix.core.FileRef
-import io.jmix.core.FileStorageLocator
-import io.jmix.search.exception.UnsupportedFileFormatException
-import spock.lang.Specification
-
-class FileProcessorTest extends Specification {
-
-    def "should throw the UnsupportedFileTypeException that have been thrown by the FileParserResolver"() {
-        given:
-        FileStorageLocator storageLocatorMock = Mock()
-
-        and:
-        def exception = Mock(UnsupportedFileFormatException)
-
-        and:
-        FileParserProvider fileParserProvider = Mock()
-        FileRef fileRefMock = Mock()
-        fileParserProvider.getParserKit(fileRefMock) >> { throw exception }
-        FileProcessor fileProcessor = new FileProcessor(storageLocatorMock, fileParserProvider)
-
-        when:
-        fileProcessor.extractFileContent(fileRefMock)
-
-        then:
-        UnsupportedFileFormatException throwable = thrown()
-        throwable == exception
     }
 }

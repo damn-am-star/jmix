@@ -23,6 +23,13 @@ import io.jmix.core.cluster.ClusterApplicationEventChannelSupplier;
 import io.jmix.core.cluster.LocalApplicationEventChannelSupplier;
 import io.jmix.localfs.LocalFileStorage;
 import io.jmix.localfs.LocalFileStorageConfiguration;
+import io.jmix.search.index.fileparsing.resolvers.LegacyMSOfficeDocumentsParserResolver;
+import io.jmix.search.index.fileparsing.resolvers.MSOfficeDocumentsParserResolver;
+import io.jmix.search.index.fileparsing.resolvers.OpenOfficeDocumentsParserResolver;
+import io.jmix.search.index.fileparsing.resolvers.PDFParserResolver;
+import io.jmix.search.index.fileparsing.resolvers.RTFParserResolver;
+import io.jmix.search.index.fileparsing.resolvers.TXTParserResolver;
+import io.jmix.search.utils.FileParserProvider;
 import io.jmix.search.utils.FileProcessor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -30,13 +37,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.util.List;
+
 @Configuration
 @JmixModule(dependsOn = LocalFileStorageConfiguration.class)
 public class FileProcessorTestConfiguration {
 
     @Bean
-    public FileProcessor fileProcessor(FileStorageLocator fileStorageLocator) {
-        return new FileProcessor(fileStorageLocator);
+    public FileParserProvider fileParserProvider() {
+        return new FileParserProvider(List.of(
+                new MSOfficeDocumentsParserResolver(),
+                new LegacyMSOfficeDocumentsParserResolver(),
+                new OpenOfficeDocumentsParserResolver(),
+                new PDFParserResolver(),
+                new RTFParserResolver(),
+                new TXTParserResolver()
+        ));
+    }
+
+    @Bean
+    public FileProcessor fileProcessor(FileStorageLocator fileStorageLocator, FileParserProvider fileParserProvider) {
+        return new FileProcessor(fileStorageLocator, fileParserProvider);
     }
 
     @Bean

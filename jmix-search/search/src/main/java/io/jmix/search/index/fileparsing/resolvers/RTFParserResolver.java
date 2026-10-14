@@ -18,7 +18,7 @@ package io.jmix.search.index.fileparsing.resolvers;
 
 import io.jmix.search.index.fileparsing.AbstractExtensionBasedFileParserResolver;
 import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.rtf.RTFParser;
+import org.apache.tika.parser.microsoft.rtf.RTFParser;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
