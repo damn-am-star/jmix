@@ -1,0 +1,7 @@
+{
+
+        "macos": [
+            "rm -f /tmp/air-setup-test.txt"
+        ]
+    }
+}
