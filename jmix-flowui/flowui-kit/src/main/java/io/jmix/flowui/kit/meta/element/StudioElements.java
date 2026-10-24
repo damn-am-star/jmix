@@ -306,6 +306,9 @@ interface StudioElements {
                                     "BOTTOM_START", "BOTTOM", "BOTTOM_END",
                                     "START_TOP", "START", "START_BOTTOM",
                                     "END_TOP", "END", "END_BOTTOM"}),
+                    @StudioProperty(xmlAttribute = "markdown",
+                            type = StudioPropertyType.BOOLEAN,
+                            defaultValue = "false"),
                     @StudioProperty(xmlAttribute = "classNames",
                             category = StudioProperty.Category.LOOK_AND_FEEL,
                             type = StudioPropertyType.VALUES_LIST),
@@ -315,6 +318,22 @@ interface StudioElements {
             }
     )
     void popoverRenderer();
+
+    @StudioElement(
+            name = "EditorComponent",
+            xmlElement = StudioXmlElements.EDITOR_COMPONENT,
+            target = {"com.vaadin.flow.component.grid.Grid.Column"},
+            unsupportedTarget = {"io.jmix.flowui.kit.component.grid.EditorActionsColumn"},
+            unlimitedCount = false,
+            documentationLink = "%VERSION%/flow-ui/vc/components/dataGrid.html#DataGridEditor",
+            availableChildren = @StudioAvailableChildrenInfo(
+                    availableClasses = @StudioAvailableChildrenInfo.ClassInfo(
+                            qualifiedName = "io.jmix.flowui.data.SupportsValueSource",
+                            maxCount = 1
+                    )
+            )
+    )
+    void columnEditorComponent();
 
     @StudioElement(
             name = "ComponentItem",
@@ -1264,4 +1283,50 @@ interface StudioElements {
             target = "com.vaadin.flow.component.Svg"
     )
     void svgContent();
+
+    @StudioElement(
+            name = "I18n",
+            classFqn = "com.vaadin.flow.component.splitlayout.SplitLayoutI18n",
+            icon = "io/jmix/flowui/kit/meta/icon/element/i18n.svg",
+            xmlElement = StudioXmlElements.I18N,
+            documentationLink = "%VERSION%/flow-ui/vc/layouts/split.html",
+            target = "io.jmix.flowui.component.splitlayout.JmixSplitLayout",
+            unlimitedCount = false,
+            properties = {
+                    @StudioProperty(
+                            xmlAttribute = StudioXmlAttributes.SEPARATOR,
+                            type = StudioPropertyType.LOCALIZED_STRING,
+                            category = StudioProperty.Category.GENERAL)
+            }
+    )
+    void splitLayoutI18n();
+
+    @StudioElement(
+            name = "I18n",
+            classFqn = "com.vaadin.flow.component.grid.GridI18n",
+            icon = "io/jmix/flowui/kit/meta/icon/element/i18n.svg",
+            xmlElement = StudioXmlElements.I18N,
+            documentationLink = "%VERSION%/flow-ui/vc/components/dataGrid.html",
+            target = {"io.jmix.flowui.component.grid.DataGrid", "io.jmix.flowui.component.grid.TreeDataGrid"},
+            unlimitedCount = false,
+            properties = {
+                    @StudioProperty(
+                            xmlAttribute = StudioXmlAttributes.SELECT_ALL,
+                            type = StudioPropertyType.LOCALIZED_STRING,
+                            category = StudioProperty.Category.GENERAL),
+                    @StudioProperty(
+                            xmlAttribute = StudioXmlAttributes.SELECT_ALL_UNAVAILABLE,
+                            type = StudioPropertyType.LOCALIZED_STRING,
+                            category = StudioProperty.Category.GENERAL),
+                    @StudioProperty(
+                            xmlAttribute = StudioXmlAttributes.SELECT_ROW,
+                            type = StudioPropertyType.LOCALIZED_STRING,
+                            category = StudioProperty.Category.GENERAL),
+                    @StudioProperty(
+                            xmlAttribute = StudioXmlAttributes.SORTER,
+                            type = StudioPropertyType.LOCALIZED_STRING,
+                            category = StudioProperty.Category.GENERAL)
+            }
+    )
+    void dataGridI18n();
 }

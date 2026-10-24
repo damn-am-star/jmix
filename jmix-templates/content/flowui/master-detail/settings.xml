@@ -32,6 +32,22 @@
             <![CDATA[${studioUtils.makeScreenNaturalCaption(entity.className.concat('.browse'), null)}]]>
         </message>
     </locMessages>
+    <locMessages key="fullTextFilterTitle" expressionKey="${studioUtils.decapitalize(viewControllerName)}.fullTextFilter">
+        <message lang="default">
+            <![CDATA[Search]]>
+        </message>
+        <condition source="${listFilterType.type.name().equals(&quot;FULL_TEXT&quot;)}">
+            <dependency code="listFilterType"/>
+        </condition>
+    </locMessages>
+    <locMessages key="emptyStateText" expressionKey="${studioUtils.decapitalize(viewControllerName)}.emptyStateText">
+        <message lang="default">
+            <![CDATA[No data]]>
+        </message>
+        <condition source="${gridEmptyState}">
+            <dependency code="gridEmptyState"/>
+        </condition>
+    </locMessages>
     <steps>
         <step name="Entity list view" order="0"/>
         <step name="Entity list fetch plan" order="1"
@@ -143,6 +159,11 @@
               propertyType="BOOLEAN"
               preferences="true"
               defaultValue="true"/>
+    <property caption="Empty state component"
+              code="gridEmptyState"
+              propertyType="BOOLEAN"
+              preferences="true"
+              defaultValue="false"/>
 
     <property caption="Descriptor name"
               code="viewDescriptorName"

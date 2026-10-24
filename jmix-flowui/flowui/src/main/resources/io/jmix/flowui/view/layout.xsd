@@ -3166,6 +3166,7 @@
 
     <xs:complexType name="popoverRendererType">
         <xs:attribute name="position" type="popoverPositionType"/>
+        <xs:attribute name="markdown" type="xs:boolean"/>
         <xs:attribute name="css" type="xs:string"/>
 
         <xs:attributeGroup ref="hasClassNames"/>
@@ -3584,11 +3585,16 @@
 
     <!-- Grid.Column-->
     <xs:complexType name="dataGridColumnComponent">
-        <xs:sequence minOccurs="0">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="aggregation" type="gridAggregationType"/>
             <xs:group ref="renderers"/>
             <xs:element name="fragmentRenderer" type="fragmentRendererElement"/>
-        </xs:sequence>
+            <xs:element name="editorComponent">
+                <xs:complexType>
+                    <xs:group ref="layoutOrComponent"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
 
         <xs:attribute name="key" type="xs:string"/>
         <xs:attribute name="visible" type="xs:boolean"/>
@@ -3644,6 +3650,7 @@
                             <xs:group ref="layoutOrComponent"/>
                         </xs:complexType>
                     </xs:element>
+                    <xs:element name="i18n" type="dataGridI18nElement" minOccurs="0"/>
                 </xs:all>
 
                 <xs:attribute name="ariaLabel" type="resourceString"/>
@@ -3684,6 +3691,13 @@
                 <xs:attribute name="showOrphans" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="dataGridI18nElement">
+        <xs:attribute name="selectAll" type="resourceString"/>
+        <xs:attribute name="selectAllUnavailable" type="resourceString"/>
+        <xs:attribute name="selectRow" type="resourceString"/>
+        <xs:attribute name="sorter" type="resourceString"/>
     </xs:complexType>
 
     <!-- TextField-->
@@ -4579,8 +4593,11 @@
     <xs:complexType name="splitContainer">
         <xs:complexContent>
             <xs:extension base="baseComponent">
-                <xs:sequence minOccurs="2" maxOccurs="2">
-                    <xs:group ref="singleLayoutOrComponent"/>
+                <xs:sequence>
+                    <xs:sequence minOccurs="2" maxOccurs="2">
+                        <xs:group ref="singleLayoutOrComponent"/>
+                    </xs:sequence>
+                    <xs:element name="i18n" type="splitI18nElement" minOccurs="0"/>
                 </xs:sequence>
 
                 <xs:attribute name="themeNames" type="splitThemeNames"/>
@@ -4592,6 +4609,10 @@
                 <xs:attributeGroup ref="hasClickNotifierAttributes"/>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="splitI18nElement">
+        <xs:attribute name="separator" type="resourceString"/>
     </xs:complexType>
 
     <!-- Tabs-->

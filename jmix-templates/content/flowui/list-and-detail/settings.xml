@@ -31,10 +31,26 @@
             <![CDATA[${studioUtils.makeScreenNaturalCaption(entity.className.concat('.browse'), null)}]]>
         </message>
     </locMessages>
+    <locMessages key="fullTextFilterTitle" expressionKey="${studioUtils.decapitalize(viewControllerName)}.fullTextFilter">
+        <message lang="default">
+            <![CDATA[Search]]>
+        </message>
+        <condition source="${listFilterType.type.name().equals(&quot;FULL_TEXT&quot;)}">
+            <dependency code="listFilterType"/>
+        </condition>
+    </locMessages>
     <locMessages key="detailTitle" expressionKey="${studioUtils.decapitalize(detailControllerName)}.title">
         <message lang="default">
             <![CDATA[${studioUtils.makeNaturalMessage(entity.className)}]]>
         </message>
+    </locMessages>
+    <locMessages key="emptyStateText" expressionKey="${studioUtils.decapitalize(viewControllerName)}.emptyStateText">
+        <message lang="default">
+            <![CDATA[No data]]>
+        </message>
+        <condition source="${gridEmptyState}">
+            <dependency code="gridEmptyState"/>
+        </condition>
     </locMessages>
 
     <steps>
@@ -126,6 +142,12 @@
               code="resizableColumns"
               propertyType="BOOLEAN"
               defaultValue="true"/>
+    <property caption="Empty state component"
+              step="1"
+              code="gridEmptyState"
+              propertyType="BOOLEAN"
+              preferences="true"
+              defaultValue="false"/>
     <property caption="Labels position aside"
               code="asideLabelsPosition"
               step="1"
